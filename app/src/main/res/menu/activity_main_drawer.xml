@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_favorecido"
+            android:icon="@mipmap/ic_person_white_36dp"
+            android:title="@string/favorecido" />
+        <item
+            android:id="@+id/nav_categoria"
+            android:icon="@mipmap/ic_assessment_white_36dp"
+            android:title="@string/categoria" />
+        <item
+            android:id="@+id/nav_lancamento"
+            android:icon="@mipmap/ic_local_atm_white_36dp"
+            android:title="@string/lancamento" />
+    </group>
+
+    <!--
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@android:drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@android:drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item> -->
+
+</menu>
