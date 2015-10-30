@@ -13,8 +13,9 @@ public class FavorecidoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorecido);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(getString(R.string.favorecido));
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
