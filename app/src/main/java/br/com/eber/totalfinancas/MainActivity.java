@@ -1,11 +1,10 @@
 package br.com.eber.totalfinancas;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -23,15 +23,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,6 +44,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        int itemId = R.id.nav_inicio;
+        navigationView.setCheckedItem(itemId);
+        createFragments(itemId);
     }
 
     @Override
@@ -82,22 +77,38 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == R.id.nav_favorecido) {
-            Intent favorecido = new Intent(this, FavorecidoActivity.class);
-            startActivity(favorecido);
-        } else if (id == R.id.nav_categoria) {
-
-        } else if (id == R.id.nav_lancamento) {
-
-        }
+        createFragments(item.getItemId());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void createFragments(int itemId) {
+        Fragment fragment = null;
+        String title = getString(R.string.app_name);
+        if (itemId == R.id.nav_inicio) {
+            fragment = InicioFragment.newInstance();
+        } else if (itemId == R.id.nav_favorecido) {
+            title = getString(R.string.favorecido);
+            fragment = FavorecidoFragment.newInstance();
+        } else if (itemId == R.id.nav_categoria) {
+            title = getString(R.string.categoria);
+            fragment = CategoriaFragment.newInstance();
+        } else if (itemId == R.id.nav_lancamento) {
+            title = getString(R.string.lancamento);
+            fragment = LancamentoFragment.newInstance();
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.content_main, fragment);
+            fragmentTransaction.commit();
+            getSupportActionBar().setTitle(title);
+        }
     }
 }
