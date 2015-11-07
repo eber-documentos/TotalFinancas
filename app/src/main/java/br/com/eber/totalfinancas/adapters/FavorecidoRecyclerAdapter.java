@@ -1,4 +1,4 @@
-package br.com.eber.totalfinancas;
+package br.com.eber.totalfinancas.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+
+import br.com.eber.totalfinancas.models.Favorecido;
+import br.com.eber.totalfinancas.R;
 
 public class FavorecidoRecyclerAdapter extends RecyclerView.Adapter<FavorecidoRecyclerAdapter.ViewHolder> {
 

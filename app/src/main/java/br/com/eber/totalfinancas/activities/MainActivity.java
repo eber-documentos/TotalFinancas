@@ -1,4 +1,4 @@
-package br.com.eber.totalfinancas;
+package br.com.eber.totalfinancas.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,6 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import br.com.eber.totalfinancas.R;
+import br.com.eber.totalfinancas.fragments.CategoriaFragment;
+import br.com.eber.totalfinancas.fragments.FavorecidoFragment;
+import br.com.eber.totalfinancas.fragments.InicioFragment;
+import br.com.eber.totalfinancas.fragments.LancamentoFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

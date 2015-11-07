@@ -1,4 +1,4 @@
-package br.com.eber.totalfinancas;
+package br.com.eber.totalfinancas.fragments;
 
 
 import android.content.Intent;
@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.eber.totalfinancas.models.Favorecido;
+import br.com.eber.totalfinancas.activities.FavorecidoActivity;
+import br.com.eber.totalfinancas.adapters.FavorecidoRecyclerAdapter;
+import br.com.eber.totalfinancas.R;
 
 
 public class FavorecidoFragment extends Fragment {
