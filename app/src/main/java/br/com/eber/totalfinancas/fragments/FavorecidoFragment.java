@@ -20,8 +20,9 @@ import br.com.eber.totalfinancas.adapters.FavorecidoRecyclerAdapter;
 import br.com.eber.totalfinancas.R;
 
 
-public class FavorecidoFragment extends Fragment {
+public class FavorecidoFragment extends Fragment implements View.OnClickListener {
 
+    private FloatingActionButton fab;
 
     public FavorecidoFragment() {
     }
@@ -42,18 +43,21 @@ public class FavorecidoFragment extends Fragment {
         }
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new FavorecidoRecyclerAdapter(favorecidos));
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent favorecido = new Intent(getActivity(), FavorecidoActivity.class);
-                startActivity(favorecido);
-            }
-        });
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == fab) {
+            Intent favorecido = new Intent(getActivity(), FavorecidoActivity.class);
+            startActivity(favorecido);
+        }
     }
 }
