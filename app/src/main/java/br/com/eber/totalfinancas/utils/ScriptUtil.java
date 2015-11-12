@@ -19,7 +19,7 @@ public class ScriptUtil {
     }
 
     public static void execute(SQLiteDatabase db, int version) {
-        execute(db, version, version);
+        execute(db, version - 1, version);
     }
 
     private static List<Script> getScripts(int oldVersion, int newVersion) {
