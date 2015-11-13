@@ -1,16 +1,18 @@
 package br.com.eber.totalfinancas.models;
 
+import org.simpleframework.xml.Element;
+
+@Element(name = "script")
 public class Script implements Comparable<Script> {
 
+    @Element
     private int versao;
-    private int ordem;
-    private String sql;
 
-    public Script(int versao, int ordem, String sql) {
-        this.versao = versao;
-        this.ordem = ordem;
-        this.sql = sql;
-    }
+    @Element
+    private int ordem;
+
+    @Element
+    private String sql;
 
     public int getVersao() {
         return versao;
