@@ -4,19 +4,9 @@ import br.com.eber.totalfinancas.enuns.Ativo;
 
 public class Favorecido {
 
-    public static final String TABLE_NAME = "favorecido";
-    public static final String[] COLUMNS = {"id_favorecido", "nm_favorecido", "bo_ativo"};
-    public static final String NOME = "nm_favorecido";
-
     private int id;
     private String nome;
     private Ativo ativo;
-
-    public Favorecido(String nome) {
-        this.id = 0;
-        this.nome = nome;
-        this.ativo = Ativo.SIM;
-    }
 
     public int getId() {
         return id;

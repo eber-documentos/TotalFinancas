@@ -2,39 +2,38 @@ package br.com.eber.totalfinancas.daos;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.eber.totalfinancas.helpers.DatabaseHelper;
+import br.com.eber.totalfinancas.enuns.Ativo;
 import br.com.eber.totalfinancas.models.Favorecido;
 
-public class FavorecidoDAO {
+public class FavorecidoDAO extends AbstractDAO<Favorecido> {
 
-    private DatabaseHelper databaseHelper;
+    private static final String TABLE_NAME = "favorecido";
+    private static final String COLUMN_ID = "id_favorecido";
+    private static final String COLUMN_NOME = "nm_favorecido";
+    private static final String COLUMN_ATIVO = "bo_ativo";
+    private static final String[] COLUMNS = {COLUMN_ID, COLUMN_NOME, COLUMN_ATIVO};
 
     public FavorecidoDAO(Context context) {
-        databaseHelper = new DatabaseHelper(context);
+        super(context);
     }
 
-    public List<Favorecido> findAll() {
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        try {
-            List<Favorecido> favorecidos = new ArrayList<>();
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
 
-            Cursor cursor = db.query(Favorecido.TABLE_NAME, Favorecido.COLUMNS, null, null, null, null, Favorecido.NOME);
-            if (cursor != null) {
-                cursor.moveToFirst();
-                do {
-                    Favorecido favorecido = new Favorecido(cursor.getString(cursor.getColumnIndex(Favorecido.NOME)));
-                    favorecidos.add(favorecido);
-                } while (cursor.moveToNext());
-            }
+    @Override
+    protected String[] getColumns() {
+        return COLUMNS;
+    }
 
-            return favorecidos;
-        } finally {
-            db.close();
-        }
+    @Override
+    protected Favorecido parseToInstance(Cursor cursor) {
+        Favorecido favorecido = new Favorecido();
+        favorecido.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
+        favorecido.setNome(cursor.getString(cursor.getColumnIndex(COLUMN_NOME)));
+        favorecido.setAtivo(Ativo.parse(cursor.getString(cursor.getColumnIndex(COLUMN_ATIVO))));
+        return favorecido;
     }
 }

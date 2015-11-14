@@ -11,13 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import br.com.eber.totalfinancas.models.Favorecido;
+import br.com.eber.totalfinancas.R;
 import br.com.eber.totalfinancas.activities.FavorecidoActivity;
 import br.com.eber.totalfinancas.adapters.FavorecidoRecyclerAdapter;
-import br.com.eber.totalfinancas.R;
+import br.com.eber.totalfinancas.controllers.FavorecidoController;
+import br.com.eber.totalfinancas.models.Favorecido;
 
 
 public class FavorecidoFragment extends Fragment implements View.OnClickListener {
@@ -37,10 +37,8 @@ public class FavorecidoFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favorecido, container, false);
 
-        List<Favorecido> favorecidos = new ArrayList<>();
-        for (int i = 0; i <= 100; i++) {
-            favorecidos.add(new Favorecido("FAVORECIDO: " + i));
-        }
+        FavorecidoController controller = new FavorecidoController(getActivity());
+        List<Favorecido> favorecidos = controller.findAll();
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
