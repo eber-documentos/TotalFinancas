@@ -1,34 +1,82 @@
 package br.com.eber.totalfinancas.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import br.com.eber.totalfinancas.R;
+import br.com.eber.totalfinancas.controllers.FavorecidoController;
+import br.com.eber.totalfinancas.enuns.Ativo;
+import br.com.eber.totalfinancas.enuns.Operacao;
+import br.com.eber.totalfinancas.models.Favorecido;
 
-public class FavorecidoActivity extends AppCompatActivity {
+public class FavorecidoActivity extends AbstractActivity {
+
+    private EditText etNome;
+    private CheckBox cbAtivo;
+    private Favorecido favorecido;
+
+    private FavorecidoController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorecido);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        etNome = (EditText) findViewById(R.id.etNome);
+        cbAtivo = (CheckBox) findViewById(R.id.cbAtivo);
+
+        controller = new FavorecidoController(this);
+
+        Intent i = getIntent();
+        if (i != null) {
+
+            favorecido = i.getParcelableExtra(Favorecido.class.getSimpleName());
+            if (favorecido != null) {
+                etNome.setText(favorecido.getNome());
+                cbAtivo.setChecked(favorecido.getAtivo() == Ativo.SIM ? true : false);
+            } else {
+                favorecido = new Favorecido();
+            }
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == android.R.id.home) {
-            finish();
-            return true;
+    @Override
+    protected void setDataToScreen() {
+
+    }
+
+    @Override
+    protected void onClearCampos() {
+
+    }
+
+    @Override
+    protected void onBloquearDesbloquearCampos(boolean bloquear) {
+
+    }
+
+    @Override
+    protected boolean onConfirmar(Operacao operacao) {
+
+        favorecido.setNome(etNome.getText().toString());
+        favorecido.setAtivo(cbAtivo.isChecked() ? Ativo.SIM : Ativo.NAO);
+
+        if (operacao == Operacao.INSERIR) {
+            controller.insert(favorecido);
+        } else if (operacao == Operacao.ALTERAR) {
+            controller.update(favorecido);
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }

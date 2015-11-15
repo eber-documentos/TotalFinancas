@@ -4,7 +4,7 @@
         <script>
             <versao>1</versao>
             <ordem>1</ordem>
-            <sql>create table favorecido (id_favorecido integer not null, nm_favorecido varchar(60) not null, bo_ativo varchar(1) not null);</sql>
+            <sql>create table favorecido (id_favorecido integer not null primary key autoincrement, nm_favorecido varchar(60) not null, bo_ativo varchar(1) not null);</sql>
         </script>
     </scripts>
 </database>

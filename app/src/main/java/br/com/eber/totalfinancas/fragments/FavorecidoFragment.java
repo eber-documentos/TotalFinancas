@@ -1,6 +1,7 @@
 package br.com.eber.totalfinancas.fragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,10 @@ import br.com.eber.totalfinancas.models.Favorecido;
 public class FavorecidoFragment extends Fragment implements View.OnClickListener {
 
     private FloatingActionButton fab;
+    private FavorecidoController controller;
+    private List<Favorecido> favorecidos;
+    private RecyclerView recyclerView;
+    FavorecidoRecyclerAdapter adapter;
 
     public FavorecidoFragment() {
     }
@@ -37,13 +42,14 @@ public class FavorecidoFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favorecido, container, false);
 
-        FavorecidoController controller = new FavorecidoController(getActivity());
-        List<Favorecido> favorecidos = controller.findAll();
+        controller = new FavorecidoController(getActivity());
+        favorecidos = controller.findAll();
 
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new FavorecidoRecyclerAdapter(favorecidos));
+        adapter = new FavorecidoRecyclerAdapter(getActivity(), this, controller, favorecidos);
+        recyclerView.setAdapter(adapter);
 
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -55,7 +61,19 @@ public class FavorecidoFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         if (v == fab) {
             Intent favorecido = new Intent(getActivity(), FavorecidoActivity.class);
-            startActivity(favorecido);
+            favorecido.putExtra("operacao", "inserir");
+            startActivityForResult(favorecido, 0);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                favorecidos = controller.findAll();
+                adapter.setFavorecidos(favorecidos);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 }

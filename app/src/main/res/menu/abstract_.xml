@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_inserir"
+        android:icon="@mipmap/ic_add_white_24dp"
+        android:title="@string/inserir"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_alterar"
+        android:icon="@mipmap/ic_edit_white_24dp"
+        android:title="@string/alterar"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_excluir"
+        android:icon="@mipmap/ic_remove_white_24dp"
+        android:title="@string/excluir"
+        app:showAsAction="always" />
+
+</menu>
