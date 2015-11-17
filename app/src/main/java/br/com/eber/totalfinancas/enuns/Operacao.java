@@ -1,7 +1,5 @@
 package br.com.eber.totalfinancas.enuns;
 
-import br.com.eber.totalfinancas.R;
-
 public enum Operacao {
 
     INSERIR("inserir"),
