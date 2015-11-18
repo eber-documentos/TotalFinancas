@@ -17,11 +17,14 @@ public abstract class AbstractActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getContentView());
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        initComp();
 
         Intent i = getIntent();
         if (i != null) {
@@ -114,6 +117,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    protected abstract int getContentView();
+
+    protected abstract void initComp();
 
     protected abstract void setDataToScreen();
 

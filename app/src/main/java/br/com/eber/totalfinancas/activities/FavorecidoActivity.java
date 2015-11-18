@@ -22,10 +22,6 @@ public class FavorecidoActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorecido);
-
-        etNome = (EditText) findViewById(R.id.etNome);
-        cbAtivo = (CheckBox) findViewById(R.id.cbAtivo);
 
         controller = new FavorecidoController(this);
 
@@ -42,6 +38,16 @@ public class FavorecidoActivity extends AbstractActivity {
         }
     }
 
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_favorecido;
+    }
+
+    @Override
+    protected void initComp() {
+        etNome = (EditText) findViewById(R.id.etNome);
+        cbAtivo = (CheckBox) findViewById(R.id.cbAtivo);
+    }
 
     @Override
     protected void setDataToScreen() {
