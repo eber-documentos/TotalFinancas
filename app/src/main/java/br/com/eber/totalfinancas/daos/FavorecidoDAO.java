@@ -39,36 +39,37 @@ public class FavorecidoDAO extends AbstractDAO<Favorecido> {
         return favorecido;
     }
 
-    public void insert(Favorecido favorecido) {
-
+    @Override
+    public void insert(Favorecido obj) {
         SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
         try {
             ContentValues values = new ContentValues();
-            values.put(COLUMN_NOME, favorecido.getNome());
-            values.put(COLUMN_ATIVO, favorecido.getAtivo().getValue());
+            values.put(COLUMN_NOME, obj.getNome());
+            values.put(COLUMN_ATIVO, obj.getAtivo().getValue());
             db.insert(TABLE_NAME, null, values);
         } finally {
             db.close();
         }
     }
 
-    public void update(Favorecido favorecido) {
-
+    @Override
+    public void update(Favorecido obj) {
         SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
         try {
             ContentValues values = new ContentValues();
-            values.put(COLUMN_NOME, favorecido.getNome());
-            values.put(COLUMN_ATIVO, favorecido.getAtivo().getValue());
-            db.update(TABLE_NAME, values, COLUMN_ID + " = " + favorecido.getId(), null);
+            values.put(COLUMN_NOME, obj.getNome());
+            values.put(COLUMN_ATIVO, obj.getAtivo().getValue());
+            db.update(TABLE_NAME, values, COLUMN_ID + " = " + obj.getId(), null);
         } finally {
             db.close();
         }
     }
 
-    public void delete(Favorecido favorecido) {
+    @Override
+    public void delete(Favorecido obj) {
         SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
         try {
-            db.delete(TABLE_NAME, COLUMN_ID + " = " + favorecido.getId(), null);
+            db.delete(TABLE_NAME, COLUMN_ID + " = " + obj.getId(), null);
         } finally {
             db.close();
         }

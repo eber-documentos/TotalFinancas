@@ -1,42 +1,20 @@
 package br.com.eber.totalfinancas.activities;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.content.Context;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
 import br.com.eber.totalfinancas.R;
+import br.com.eber.totalfinancas.controllers.AbstractController;
 import br.com.eber.totalfinancas.controllers.FavorecidoController;
 import br.com.eber.totalfinancas.enuns.Ativo;
 import br.com.eber.totalfinancas.enuns.Operacao;
 import br.com.eber.totalfinancas.models.Favorecido;
 
-public class FavorecidoActivity extends AbstractActivity {
+public class FavorecidoActivity extends AbstractActivity<Favorecido> {
 
     private EditText etNome;
     private CheckBox cbAtivo;
-    private Favorecido favorecido;
-
-    private FavorecidoController controller;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        controller = new FavorecidoController(this);
-
-        Intent i = getIntent();
-        if (i != null) {
-
-            favorecido = i.getParcelableExtra(Favorecido.class.getSimpleName());
-            if (favorecido != null) {
-                etNome.setText(favorecido.getNome());
-                cbAtivo.setChecked(favorecido.getAtivo() == Ativo.SIM ? true : false);
-            } else {
-                favorecido = new Favorecido();
-            }
-        }
-    }
 
     @Override
     protected int getContentView() {
@@ -50,32 +28,33 @@ public class FavorecidoActivity extends AbstractActivity {
     }
 
     @Override
-    protected void setDataToScreen() {
-
+    protected AbstractController<Favorecido> newControllerInstance(Context context) {
+        return new FavorecidoController(context);
     }
 
     @Override
-    protected void onClearCampos() {
-
+    protected void onControlScreen(Operacao operacao) {
+        boolean enabled = operacao == Operacao.INSERIR || operacao == Operacao.ALTERAR;
+        etNome.setEnabled(enabled);
+        cbAtivo.setEnabled(enabled);
     }
 
     @Override
-    protected void onBloquearDesbloquearCampos(boolean bloquear) {
-
+    protected Favorecido newEntityInstance() {
+        Favorecido favorecido = new Favorecido();
+        favorecido.setAtivo(Ativo.SIM);
+        return favorecido;
     }
 
     @Override
-    protected boolean onConfirmar(Operacao operacao) {
+    protected void onDataToScreen(Operacao operacao, Favorecido obj) {
+        etNome.setText(obj.getNome());
+        cbAtivo.setChecked(obj.getAtivo() == Ativo.SIM ? true : false);
+    }
 
-        favorecido.setNome(etNome.getText().toString());
-        favorecido.setAtivo(cbAtivo.isChecked() ? Ativo.SIM : Ativo.NAO);
-
-        if (operacao == Operacao.INSERIR) {
-            controller.insert(favorecido);
-        } else if (operacao == Operacao.ALTERAR) {
-            controller.update(favorecido);
-        }
-
-        return true;
+    @Override
+    protected void onScreenToData(Operacao operacao, Favorecido obj) {
+        obj.setNome(etNome.getText().toString());
+        obj.setAtivo(cbAtivo.isChecked() ? Ativo.SIM : Ativo.NAO);
     }
 }

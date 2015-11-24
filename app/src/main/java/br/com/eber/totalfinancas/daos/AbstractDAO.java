@@ -10,8 +10,21 @@ import java.util.List;
 import br.com.eber.totalfinancas.helpers.DatabaseHelper;
 
 public abstract class AbstractDAO<T> {
+
     private Context context;
     private DatabaseHelper databaseHelper;
+
+    protected abstract String getTableName();
+
+    protected abstract String[] getColumns();
+
+    protected abstract T parseToInstance(Cursor cursor);
+
+    public abstract void insert(T obj);
+
+    public abstract void update(T obj);
+
+    public abstract void delete(T obj);
 
     public AbstractDAO(Context context) {
         this.context = context;
@@ -25,10 +38,6 @@ public abstract class AbstractDAO<T> {
     protected DatabaseHelper getDatabaseHelper() {
         return databaseHelper;
     }
-
-    protected abstract String getTableName();
-    protected abstract String[] getColumns();
-    protected abstract T parseToInstance(Cursor cursor);
 
     public List<T> findAll() {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();

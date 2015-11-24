@@ -1,38 +1,36 @@
 package br.com.eber.totalfinancas.adapters;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import br.com.eber.totalfinancas.R;
 import br.com.eber.totalfinancas.activities.FavorecidoActivity;
-import br.com.eber.totalfinancas.controllers.FavorecidoController;
+import br.com.eber.totalfinancas.enuns.Operacao;
 import br.com.eber.totalfinancas.models.Favorecido;
 
 public class FavorecidoRecyclerAdapter extends RecyclerView.Adapter<FavorecidoRecyclerAdapter.ViewHolder> {
 
-    private Context context;
     private Fragment fragment;
-    FavorecidoController controller;
     private List<Favorecido> favorecidos;
 
-    public FavorecidoRecyclerAdapter(Context context, Fragment fragment, FavorecidoController controller, List<Favorecido> favorecidos) {
-        this.context = context;
+    public FavorecidoRecyclerAdapter(Fragment fragment, List<Favorecido> favorecidos) {
         this.fragment = fragment;
-        this.controller = controller;
         this.favorecidos = favorecidos;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.list_row_favorecido, parent, false);
+        View v = LayoutInflater.from(fragment.getContext()).inflate(R.layout.list_row_favorecido, parent, false);
         return new ViewHolder(v);
     }
 
@@ -60,23 +58,54 @@ public class FavorecidoRecyclerAdapter extends RecyclerView.Adapter<FavorecidoRe
         public ViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.textView);
+
             itemView.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(context, FavorecidoActivity.class);
-                    i.putExtra(Favorecido.class.getSimpleName(), favorecido);
-                    i.putExtra("operacao", "alterar");
-                    fragment.startActivityForResult(i, 0);
-                }
-            });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    controller.delete(favorecido);
-                    favorecidos.remove(favorecido);
-                    notifyDataSetChanged();
-                    return true;
+                    final Dialog dialog = new Dialog(fragment.getContext());
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.options_dialog);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
+
+                    LinearLayout llAlterar = (LinearLayout) dialog.findViewById(R.id.llAlterar);
+                    LinearLayout llExcluir = (LinearLayout) dialog.findViewById(R.id.llExcluir);
+                    LinearLayout llVisualizar = (LinearLayout) dialog.findViewById(R.id.llVisualizar);
+
+                    llAlterar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            Intent i = new Intent(fragment.getContext(), FavorecidoActivity.class);
+                            i.putExtra(FavorecidoActivity.ENTITY, favorecido);
+                            i.putExtra(Operacao.asString(), Operacao.ALTERAR.getValue());
+                            fragment.startActivityForResult(i, 0);
+                        }
+                    });
+
+                    llExcluir.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            Intent i = new Intent(fragment.getContext(), FavorecidoActivity.class);
+                            i.putExtra(FavorecidoActivity.ENTITY, favorecido);
+                            i.putExtra(Operacao.asString(), Operacao.EXCLUIR.getValue());
+                            fragment.startActivityForResult(i, 0);
+                        }
+                    });
+
+                    llVisualizar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            Intent i = new Intent(fragment.getContext(), FavorecidoActivity.class);
+                            i.putExtra(FavorecidoActivity.ENTITY, favorecido);
+                            i.putExtra(Operacao.asString(), Operacao.VISUALIZAR.getValue());
+                            fragment.startActivityForResult(i, 0);
+                        }
+                    });
                 }
             });
         }

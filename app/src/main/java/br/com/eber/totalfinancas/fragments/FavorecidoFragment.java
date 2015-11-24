@@ -18,6 +18,7 @@ import br.com.eber.totalfinancas.R;
 import br.com.eber.totalfinancas.activities.FavorecidoActivity;
 import br.com.eber.totalfinancas.adapters.FavorecidoRecyclerAdapter;
 import br.com.eber.totalfinancas.controllers.FavorecidoController;
+import br.com.eber.totalfinancas.enuns.Operacao;
 import br.com.eber.totalfinancas.models.Favorecido;
 
 
@@ -48,7 +49,7 @@ public class FavorecidoFragment extends Fragment implements View.OnClickListener
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new FavorecidoRecyclerAdapter(getActivity(), this, controller, favorecidos);
+        adapter = new FavorecidoRecyclerAdapter(this, favorecidos);
         recyclerView.setAdapter(adapter);
 
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
@@ -61,19 +62,18 @@ public class FavorecidoFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         if (v == fab) {
             Intent favorecido = new Intent(getActivity(), FavorecidoActivity.class);
-            favorecido.putExtra("operacao", "inserir");
+            favorecido.putExtra(Operacao.asString(), Operacao.INSERIR.getValue());
             startActivityForResult(favorecido, 0);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0) {
-            if (resultCode == Activity.RESULT_OK) {
-                favorecidos = controller.findAll();
-                adapter.setFavorecidos(favorecidos);
-                adapter.notifyDataSetChanged();
-            }
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            favorecidos = controller.findAll();
+            adapter.setFavorecidos(favorecidos);
+            adapter.notifyDataSetChanged();
         }
     }
 }

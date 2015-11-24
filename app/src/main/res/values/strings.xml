@@ -14,8 +14,16 @@
     <string name="cancelar">Cancelar</string>
     <string name="nome">Nome</string>
     <string name="ativo">Ativo</string>
-    <string name="operacaoNaoInformada">Operação não informada.</string>
+    <string name="operacaoNaoInformada">Operação não informada</string>
     <string name="alterar">Alterar</string>
     <string name="excluir">Excluir</string>
     <string name="inserir">Inserir</string>
+    <string name="intentNaoInformada">Intent não informada</string>
+    <string name="entidadeNaoDefinida">Entidade não definida</string>
+    <string name="erroAoConfirmar">"Erro ao confirmar.\nDescrição: "</string>
+    <string name="inserindo">Inserindo...</string>
+    <string name="alterando">Alterando...</string>
+    <string name="excluindo">Excluindo...</string>
+    <string name="visualizando">Visualizando...</string>
+    <string name="visualizar">Visualizar</string>
 </resources>

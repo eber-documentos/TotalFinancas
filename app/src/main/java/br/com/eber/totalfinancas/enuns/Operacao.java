@@ -29,7 +29,7 @@ public enum Operacao {
         } else if (VISUALIZAR.getValue().equals(value)) {
             operacao = VISUALIZAR;
         } else {
-            throw new IllegalArgumentException("Operação inválida: " + value);
+            throw new IllegalArgumentException(value);
         }
 
         return operacao;
